@@ -2,28 +2,25 @@
 
 Projeto desenvolvido para a disciplina de Engenharia de Software.
 
-## Objetivo
+## 💡 Sobre o projeto
 
-O GoodDeeds é uma plataforma web de voluntariado, criada para conectar voluntários e organizadores de eventos sociais.
+O GoodDeeds é uma plataforma web que conecta voluntários a eventos sociais.
 
-## Tecnologias
+## 🚀 Tecnologias
 
-- Frontend: HTML, CSS e JavaScript
+- Frontend: React + Vite
 - Backend: Node.js + Express
 - Versionamento: GitHub
 - Prototipação: Figma
-- Organização: Trello
+- Gestão: Trello
 
-## Estrutura
+## 📁 Estrutura do projeto
 
-- `/frontend`: telas do sistema
-- `/backend`: API do sistema
-- `/docs`: documentos do projeto
-
-## Sprint 1
-
-Funcionalidades principais:
-
-- Cadastro de usuário
-- Login
-- Integração entre frontend e backend
+gooddeeds/
+├── backend/
+├── frontend/
+│ ├── src/
+│ ├── public/
+│ └── vite.config.js
+├── docs/
+└── README.md
