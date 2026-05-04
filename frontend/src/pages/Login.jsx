@@ -59,7 +59,6 @@ export default function Login() {
             </svg>
           </div>
           <h3 className="auth-title">Entrar no GoodDeeds</h3>
-          <p className="auth-subtitle">Bem-vindo de volta!</p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
@@ -85,7 +84,7 @@ export default function Login() {
               id="senha"
               name="senha"
               type="password"
-              placeholder="Sua senha"
+              placeholder="Mínimo 6 caracteres"
               value={form.senha}
               onChange={handleChange}
               className={erros.senha ? 'input-erro' : ''}
@@ -99,7 +98,7 @@ export default function Login() {
         </form>
 
         <p className="auth-link-texto">
-          Não tem conta? <Link to="/cadastro">Cadastrar-se</Link>
+          Ainda não tem conta? <Link to="/cadastro">Cadastrar</Link>
         </p>
       </div>
     </div>
