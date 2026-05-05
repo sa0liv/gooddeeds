@@ -14,15 +14,15 @@ O GoodDeeds conecta voluntários a oportunidades de impacto social. Organizadore
 
 ## Tecnologias
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Frontend | React 18 + Vite |
-| Backend | Node.js + Express 5 |
-| Banco de dados | PostgreSQL |
-| Autenticação | JWT (JSON Web Tokens) |
-| Prototipação | Figma |
-| Gestão | Trello |
-| Versionamento | Git + GitHub |
+| Camada         | Tecnologia            |
+| -------------- | --------------------- |
+| Frontend       | React 18 + Vite       |
+| Backend        | Node.js + Express 5   |
+| Banco de dados | PostgreSQL            |
+| Autenticação   | JWT (JSON Web Tokens) |
+| Prototipação   | Figma                 |
+| Gestão         | Trello                |
+| Versionamento  | Git + GitHub          |
 
 ---
 
@@ -70,11 +70,35 @@ gooddeeds/
 
 ## Configuração do banco de dados
 
-### 1. Instalar o PostgreSQL
+### Banco em nuvem (Supabase + Vault) (recomendado)
+
+Use o **Transaction Pooler** do Supabase para evitar problemas de IPv6.
+
+1. No Supabase, vá em **Database → Connection pooling**
+2. Selecione **Transaction pooler**
+3. Copie a **Connection string (URI)**
+4. No `backend/.env`, configure:
+
+```
+PORT=3001
+FRONTEND_URL=http://localhost:5173
+DATABASE_URL=postgresql://postgres.PROJECT_REF:SUA_SENHA@aws-1-REGION.pooler.supabase.com:6543/postgres?connect_timeout=10
+JWT_SECRET=qualquer_string_longa_e_aleatoria
+```
+
+**Segredos (Vault):**
+
+- Nunca envie `.env` para o GitHub.
+- Compartilhe a senha do banco via **vault/gerenciador de senhas** (ex.: Bitwarden/1Password).
+- Cada dev cria o próprio `.env` local com a senha recebida.
+
+### Banco local (PostgreSQL)
+
+#### 1. Instalar o PostgreSQL
 
 Baixe e instale o PostgreSQL em [postgresql.org/download](https://www.postgresql.org/download/).
 
-### 2. Criar o banco de dados
+#### 2. Criar o banco de dados
 
 Abra o terminal do PostgreSQL (psql) ou uma ferramenta como pgAdmin e execute:
 
@@ -82,7 +106,7 @@ Abra o terminal do PostgreSQL (psql) ou uma ferramenta como pgAdmin e execute:
 CREATE DATABASE gooddeeds;
 ```
 
-### 3. Configurar as variáveis de ambiente
+#### 3. Configurar as variáveis de ambiente
 
 Dentro da pasta `backend/`, copie o arquivo de exemplo e preencha com seus dados:
 
@@ -106,7 +130,7 @@ JWT_SECRET=qualquer_string_longa_e_aleatoria
 
 > O arquivo `.env` **nunca deve ser enviado ao GitHub**. Ele já está no `.gitignore`.
 
-### 4. Criar as tabelas
+#### 4. Criar as tabelas
 
 Execute o script de migração para criar as tabelas no banco:
 
@@ -124,7 +148,7 @@ Isso criará a tabela `usuarios` automaticamente.
 ### Pré-requisitos
 
 - [Node.js 18+](https://nodejs.org/)
-- [PostgreSQL 14+](https://www.postgresql.org/)
+- PostgreSQL 14+ (se for usar banco local)
 
 ### 1. Clonar o repositório
 
@@ -139,7 +163,9 @@ cd gooddeeds
 cd backend
 npm install
 cp .env.example .env
-# Edite o .env com sua senha do PostgreSQL
+# Escolha UMA opcao no .env:
+# - Supabase (pooler): DATABASE_URL=... (ver secao acima)
+# - PostgreSQL local: DB_HOST/DB_PORT/DB_USER/DB_PASSWORD/DB_NAME
 npm run migrate   # Cria as tabelas no banco
 npm run dev       # Inicia o servidor em modo desenvolvimento
 ```
@@ -164,14 +190,15 @@ O frontend ficará disponível em `http://localhost:5173`.
 
 ### Autenticação
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
+| Método | Rota                  | Descrição         |
+| ------ | --------------------- | ----------------- |
 | `POST` | `/api/auth/registrar` | Cria novo usuário |
-| `POST` | `/api/auth/login` | Autentica usuário |
+| `POST` | `/api/auth/login`     | Autentica usuário |
 
 #### POST /api/auth/registrar
 
 **Body:**
+
 ```json
 {
   "nome": "João Silva",
@@ -183,6 +210,7 @@ O frontend ficará disponível em `http://localhost:5173`.
 ```
 
 **Resposta (201):**
+
 ```json
 {
   "usuario": {
@@ -198,6 +226,7 @@ O frontend ficará disponível em `http://localhost:5173`.
 #### POST /api/auth/login
 
 **Body:**
+
 ```json
 {
   "email": "joao@email.com",
@@ -206,6 +235,7 @@ O frontend ficará disponível em `http://localhost:5173`.
 ```
 
 **Resposta (200):**
+
 ```json
 {
   "usuario": { ... },
@@ -220,6 +250,7 @@ O frontend ficará disponível em `http://localhost:5173`.
 ### Sprint 1 — 15/04 a 28/04 (Autenticação)
 
 **Backend:**
+
 - Modelagem e criação da tabela `usuarios` (nome, email, telefone, senha, tipo_perfil)
 - Endpoint `POST /api/auth/registrar` — cadastro com validação e hash de senha (bcrypt)
 - Endpoint `POST /api/auth/login` — autenticação com retorno de token JWT
@@ -227,6 +258,7 @@ O frontend ficará disponível em `http://localhost:5173`.
 - Arquitetura MVC com separação em Model, Repository, Service e Controller
 
 **Frontend:**
+
 - Tela de Cadastro fiel ao Figma (campos: nome, e-mail, telefone, senha)
 - Tela de Login fiel ao Figma (campos: e-mail, senha)
 - Validação em tempo real nos formulários (frontend)
@@ -262,12 +294,12 @@ Usuário → LoginView/CadastroView
 
 ## Configurações de ambiente
 
-| Variável | Descrição | Exemplo |
-|----------|-----------|---------|
-| `PORT` | Porta do servidor backend | `3001` |
-| `DB_HOST` | Host do PostgreSQL | `localhost` |
-| `DB_PORT` | Porta do PostgreSQL | `5432` |
-| `DB_USER` | Usuário do banco | `postgres` |
-| `DB_PASSWORD` | Senha do banco | `sua_senha` |
-| `DB_NAME` | Nome do banco | `gooddeeds` |
-| `JWT_SECRET` | Chave para assinar tokens | string longa e aleatória |
+| Variável      | Descrição                 | Exemplo                  |
+| ------------- | ------------------------- | ------------------------ |
+| `PORT`        | Porta do servidor backend | `3001`                   |
+| `DB_HOST`     | Host do PostgreSQL        | `localhost`              |
+| `DB_PORT`     | Porta do PostgreSQL       | `5432`                   |
+| `DB_USER`     | Usuário do banco          | `postgres`               |
+| `DB_PASSWORD` | Senha do banco            | `sua_senha`              |
+| `DB_NAME`     | Nome do banco             | `gooddeeds`              |
+| `JWT_SECRET`  | Chave para assinar tokens | string longa e aleatória |

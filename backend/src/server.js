@@ -1,4 +1,8 @@
 require('dotenv').config();
+const dns = require('dns');
+
+// Prefer IPv4 to avoid IPv6 timeouts on some networks.
+dns.setDefaultResultOrder('ipv4first');
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');

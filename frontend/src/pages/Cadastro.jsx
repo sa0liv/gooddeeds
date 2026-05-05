@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { cadastrar } from '../services/api';
 import './Auth.css';
 
-const camposIniciais = { nome: '', email: '', telefone: '', senha: '' };
+const camposIniciais = { nome: '', email: '', telefone: '', senha: '', confirmacaoSenha: '' };
 
-function validar({ nome, email, telefone, senha }) {
+function validar({ nome, email, telefone, senha, confirmacaoSenha }) {
   const erros = {};
   if (!nome.trim()) erros.nome = 'Nome é obrigatório';
   if (!email) erros.email = 'E-mail é obrigatório';
@@ -14,6 +14,8 @@ function validar({ nome, email, telefone, senha }) {
     erros.telefone = 'Formato: (XX) XXXXX-XXXX';
   if (!senha) erros.senha = 'Senha é obrigatória';
   else if (senha.length < 6) erros.senha = 'Mínimo 6 caracteres';
+  if (!confirmacaoSenha) erros.confirmacaoSenha = 'Confirmação de senha é obrigatória';
+  else if (senha !== confirmacaoSenha) erros.confirmacaoSenha = 'Senha inválida';
   return erros;
 }
 
@@ -41,10 +43,14 @@ export default function Cadastro() {
     setCarregando(true);
     setErroGeral('');
     try {
-      const { data } = await cadastrar(form);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('usuario', JSON.stringify(data.usuario));
-      navigate('/dashboard');
+      const payload = {
+        nome: form.nome,
+        email: form.email,
+        telefone: form.telefone,
+        senha: form.senha,
+      };
+      await cadastrar(payload);
+      navigate('/login');
     } catch (err) {
       const msg = err.response?.data?.erro || 'Erro ao criar conta. Tente novamente.';
       setErroGeral(msg);
@@ -123,6 +129,20 @@ export default function Cadastro() {
               className={erros.senha ? 'input-erro' : ''}
             />
             {erros.senha && <span className="auth-erro">{erros.senha}</span>}
+          </div>
+
+          <div className="auth-campo">
+            <label htmlFor="confirmacaoSenha">Confirmar senha</label>
+            <input
+              id="confirmacaoSenha"
+              name="confirmacaoSenha"
+              type="password"
+              placeholder="Repita a senha"
+              value={form.confirmacaoSenha}
+              onChange={handleChange}
+              className={erros.confirmacaoSenha ? 'input-erro' : ''}
+            />
+            {erros.confirmacaoSenha && <span className="auth-erro">{erros.confirmacaoSenha}</span>}
           </div>
 
           <button type="submit" className="auth-btn" disabled={carregando}>
