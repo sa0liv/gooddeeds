@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+const { body, param, validationResult } = require('express-validator');
 
 const checarErros = (req, res, next) => {
   const erros = validationResult(req);
@@ -31,4 +31,56 @@ const validarLogin = [
   checarErros,
 ];
 
-module.exports = { validarCadastro, validarLogin };
+const validarEvento = [
+  body('titulo')
+    .trim()
+    .notEmpty()
+    .withMessage('Titulo e obrigatorio')
+    .isLength({ max: 255 })
+    .withMessage('Titulo deve ter no maximo 255 caracteres'),
+  body('descricao')
+    .trim()
+    .notEmpty()
+    .withMessage('Descricao e obrigatoria'),
+  body('local')
+    .trim()
+    .notEmpty()
+    .withMessage('Local e obrigatorio')
+    .isLength({ max: 255 })
+    .withMessage('Local deve ter no maximo 255 caracteres'),
+  body('data_hora_inicio')
+    .isISO8601()
+    .withMessage('Data/hora de inicio invalida'),
+  body('data_hora_fim')
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .withMessage('Data/hora de fim invalida')
+    .custom((dataHoraFim, { req }) => {
+      if (!dataHoraFim) return true;
+      return new Date(dataHoraFim) > new Date(req.body.data_hora_inicio);
+    })
+    .withMessage('Data/hora de fim deve ser posterior ao inicio'),
+  body('numero_maximo_vagas')
+    .isInt({ min: 1 })
+    .withMessage('Numero maximo de vagas deve ser maior que zero')
+    .toInt(),
+  body('requisitos')
+    .optional({ checkFalsy: true })
+    .trim(),
+  checarErros,
+];
+
+const validarIdEvento = [
+  param('id')
+    .isInt({ min: 1 })
+    .withMessage('ID do evento invalido')
+    .toInt(),
+  checarErros,
+];
+
+module.exports = {
+  validarCadastro,
+  validarLogin,
+  validarEvento,
+  validarIdEvento,
+};
