@@ -29,6 +29,17 @@ class UsuarioRepository {
     );
     return new Usuario(result.rows[0]);
   }
+
+  async update(id, { nome, telefone, habilidades, areas_interesse, cidade }) {
+    const result = await pool.query(
+      `UPDATE usuarios
+       SET nome = $1, telefone = $2, habilidades = $3, areas_interesse = $4, cidade = $5
+       WHERE id = $6
+       RETURNING *`,
+      [nome, telefone || null, habilidades || [], areas_interesse || [], cidade || null, id]
+    );
+    return result.rows.length > 0 ? new Usuario(result.rows[0]) : null;
+  }
 }
 
 module.exports = new UsuarioRepository();

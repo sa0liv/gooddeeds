@@ -1,0 +1,244 @@
+.controle-presenca-main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.presenca-header {
+  margin-bottom: 1.5rem;
+}
+
+.presenca-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1d2630;
+  margin: 0 0 0.25rem 0;
+}
+
+.presenca-subtitle {
+  font-size: 0.9375rem;
+  color: #67737e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.presenca-meta {
+  font-size: 0.8125rem;
+}
+
+.contadores-presenca {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contador-presenca {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.contador-numero {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1d2630;
+  margin-bottom: 0.25rem;
+}
+
+.contador-numero.presente {
+  color: #2e9e6a;
+}
+
+.contador-numero.ausente {
+  color: #f44336;
+}
+
+.contador-label {
+  font-size: 0.875rem;
+  color: #67737e;
+}
+
+.presenca-acoes {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.btn-marcar-todos {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  background: #2e9e6a;
+  color: #fff;
+}
+
+.btn-marcar-todos:hover {
+  background: #257d54;
+}
+
+.btn-salvar-presencas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  font-family: inherit;
+  background: #1d2630;
+  color: #fff;
+  margin-left: auto;
+}
+
+.btn-salvar-presencas:hover:not(:disabled) {
+  background: #2e3b4e;
+}
+
+.btn-salvar-presencas:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.presenca-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.presenca-item {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.presenca-item-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.voluntario-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: #667eea;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.125rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.presenca-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.presenca-item-info h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1d2630;
+  margin: 0 0 0.125rem 0;
+}
+
+.voluntario-email,
+.voluntario-telefone {
+  font-size: 0.8125rem;
+  color: #67737e;
+  margin: 0;
+}
+
+.presenca-item-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.badge-presente {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-ausente {
+  display: inline-block;
+  color: #67737e;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.btn-marcar-presente,
+.btn-concluir-individual {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.btn-marcar-presente {
+  background: #2e9e6a;
+  color: #fff;
+}
+
+.btn-marcar-presente:hover {
+  background: #257d54;
+}
+
+.btn-concluir-individual {
+  background: #f5f5f5;
+  color: #67737e;
+}
+
+.btn-concluir-individual:hover {
+  background: #eeeeee;
+}
+
+@media (max-width: 768px) {
+  .controle-presenca-main { padding: 1rem; }
+
+  .presenca-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .presenca-item-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

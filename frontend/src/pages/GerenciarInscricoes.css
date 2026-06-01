@@ -1,0 +1,384 @@
+/* GerenciarInscricoes Page */
+
+.gerenciar-inscricoes-main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.voltar-btn {
+  background: none;
+  border: none;
+  color: #2e9e6a;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: color 0.2s;
+}
+
+.voltar-btn:hover {
+  color: #257d54;
+}
+
+.gerenciar-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.btn-aprovar-todas {
+  background: #2e9e6a;
+  color: #fff;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-aprovar-todas:hover {
+  background: #257d54;
+}
+
+.gerenciar-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1d2630;
+  margin: 0 0 0.5rem 0;
+}
+
+.gerenciar-subtitle {
+  color: #67737e;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* Contadores */
+
+.contadores-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.contador-card {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.contador-numero {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2e9e6a;
+  margin-bottom: 0.5rem;
+}
+
+.contador-label {
+  font-size: 0.875rem;
+  color: #67737e;
+}
+
+/* Filtros */
+
+.filtros-section {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #dae0e7;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1d2630;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover {
+  border-color: #2e9e6a;
+  color: #2e9e6a;
+}
+
+.filtro-btn.ativo {
+  background: #2e9e6a;
+  color: #fff;
+  border-color: #2e9e6a;
+}
+
+/* Lista de Inscrições */
+
+.inscricoes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inscricao-item {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.inscricao-item-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.voluntario-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #667eea;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.inscricao-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.inscricao-item-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1d2630;
+  margin: 0 0 0.25rem 0;
+}
+
+.voluntario-email {
+  font-size: 0.875rem;
+  color: #67737e;
+  margin: 0 0 0.5rem 0;
+}
+
+.voluntario-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.skill-badge {
+  display: inline-block;
+  background: #f0f0f0;
+  color: #1d2630;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid #dae0e7;
+}
+
+.voluntario-city {
+  font-size: 0.8125rem;
+  color: #67737e;
+  margin: 0;
+}
+
+/* Compatibilidade */
+
+.inscricao-item-compatibilidade {
+  text-align: center;
+}
+
+.compatibilidade-box {
+  background: #f9fbfa;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.compatibilidade-percentual {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2e9e6a;
+  line-height: 1;
+}
+
+.compatibilidade-label {
+  font-size: 0.75rem;
+  color: #67737e;
+}
+
+/* Status */
+
+.inscricao-item-status {
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Ações */
+
+.inscricao-item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-aprovar,
+.btn-recusar {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  white-space: nowrap;
+}
+
+.btn-aprovar {
+  background: #2e9e6a;
+  color: #fff;
+}
+
+.btn-aprovar:hover:not(:disabled) {
+  background: #257d54;
+}
+
+.btn-recusar {
+  background: #f44336;
+  color: #fff;
+}
+
+.btn-recusar:hover:not(:disabled) {
+  background: #da190b;
+}
+
+.btn-aprovar:disabled,
+.btn-recusar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Empty State */
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  color: #67737e;
+}
+
+/* Alerts */
+
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.alert-erro {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #f44336;
+}
+
+/* Responsivo */
+
+@media (max-width: 1024px) {
+  .inscricao-item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .inscricao-item-compatibilidade,
+  .inscricao-item-status {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+
+  .inscricao-item-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .gerenciar-inscricoes-main {
+    padding: 1rem;
+  }
+
+  .gerenciar-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .contadores-section {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-section {
+    overflow-x: auto;
+    gap: 0.5rem;
+  }
+
+  .inscricao-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .inscricao-item-main {
+    grid-column: 1;
+  }
+
+  .inscricao-item-compatibilidade,
+  .inscricao-item-status,
+  .inscricao-item-actions {
+    grid-column: 1;
+  }
+
+  .inscricao-item-compatibilidade,
+  .inscricao-item-status {
+    padding: 0;
+    border: none;
+  }
+
+  .btn-aprovar,
+  .btn-recusar {
+    flex: 1;
+  }
+}

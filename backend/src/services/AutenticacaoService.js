@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const usuarioRepository = require('../repositories/UsuarioRepository');
 
 class AutenticacaoService {
-  async registrar({ nome, email, senha, telefone, tipo_perfil = 'VOLUNTARIO' }) {
+  async registrar({ nome, email, senha, telefone }) {
     const existente = await usuarioRepository.findByEmail(email);
     if (existente) {
       throw new Error('E-mail já cadastrado');
@@ -15,7 +15,7 @@ class AutenticacaoService {
       email,
       senha: senhaHash,
       telefone,
-      tipo_perfil,
+      tipo_perfil: 'VOLUNTARIO',
     });
 
     const token = this._gerarToken(usuario);

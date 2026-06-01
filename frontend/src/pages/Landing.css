@@ -1,0 +1,487 @@
+.landing {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ===== LAYOUT ===== */
+.lp-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.lp-pad {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* ===== HERO ===== */
+.lp-hero {
+  position: relative;
+  min-height: 540px;
+  background-image: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1920&auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.lp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 105, 65, 0.72);
+  display: flex;
+  flex-direction: column;
+}
+
+.lp-header {
+  padding: 1.5rem 0;
+}
+
+.lp-header .lp-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lp-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.lp-nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.lp-hero-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 4rem;
+}
+
+.lp-hero-body h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  line-height: 1.1;
+}
+
+.lp-hero-body p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 2rem;
+  max-width: 420px;
+}
+
+.lp-hero-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+/* ===== BUTTONS ===== */
+.lp-btn {
+  display: inline-block;
+  padding: 0.6rem 1.375rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.btn-ghost-fill {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+}
+
+.btn-ghost-fill:hover {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.btn-hero-solid {
+  background: #ffffff;
+  color: var(--color-dark);
+  border: 1.5px solid #ffffff;
+}
+
+.btn-hero-solid:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-dark);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+
+.btn-white {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border: 2px solid #ffffff;
+}
+
+.btn-white:hover {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--color-primary);
+}
+
+.btn-lg {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+}
+
+/* ===== SECTION BACKGROUNDS ===== */
+.lp-bg-white {
+  background-color: #ffffff;
+}
+
+.lp-bg-light {
+  background-color: #f5f9f6;
+}
+
+.lp-bg-green {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+}
+
+/* ===== CENTERED SECTION HEADINGS ===== */
+.lp-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.lp-subtitle {
+  text-align: center;
+  color: var(--color-gray);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+/* ===== COMO FUNCIONA — 4 CARDS ===== */
+.lp-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+}
+
+.lp-feature-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.lp-feature-card:hover {
+  box-shadow: 0 4px 18px rgba(46, 158, 106, 0.12);
+  border-color: var(--color-primary);
+}
+
+.lp-feature-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: #ffffff;
+}
+
+.lp-feature-card h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+}
+
+.lp-feature-card p {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.55;
+}
+
+/* ===== TWO-COLUMN SECTIONS ===== */
+.lp-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.lp-col-text h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 1.25rem;
+  line-height: 1.25;
+}
+
+.lp-col-text p {
+  color: var(--color-gray);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.lp-col-img img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  display: block;
+}
+
+/* ===== EVENTS — 3 CARDS ===== */
+.lp-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.lp-event-card {
+  background: #ffffff;
+  border: 1px solid #e8edf0;
+  border-radius: 0.875rem;
+  padding: 1.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.lp-event-card:hover {
+  box-shadow: 0 4px 18px rgba(46, 158, 106, 0.14);
+  border-color: var(--color-primary);
+}
+
+.lp-event-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.875rem;
+}
+
+.tag-aberto {
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.tag-match {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.lp-event-card h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.lp-event-card > p {
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lp-event-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.lp-event-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8rem;
+  color: var(--color-gray);
+}
+
+.lp-event-category {
+  margin-top: auto;
+}
+
+.lp-event-category span {
+  display: inline-block;
+  background: #f0f4f2;
+  color: var(--color-dark);
+  padding: 0.3rem 0.875rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid #dde5e1;
+}
+
+/* ===== CTA FINAL ===== */
+.lp-cta {
+  text-align: center;
+}
+
+.lp-cta h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.lp-cta p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin: 0 auto 2.5rem;
+  max-width: 480px;
+}
+
+/* ===== FOOTER ===== */
+.lp-footer {
+  background-color: #1c1c1e;
+  text-align: center;
+  padding: 2.5rem 2rem;
+}
+
+.lp-footer-brand {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+}
+
+.lp-footer p:last-child {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .lp-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lp-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .lp-hero-body h1 {
+    font-size: 2.5rem;
+  }
+
+  .lp-two-col {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .lp-pad {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .lp-col-img {
+    order: -1;
+  }
+
+  .lp-col-img img {
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lp-grid-4,
+  .lp-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .lp-hero-body h1 {
+    font-size: 2rem;
+  }
+
+  .lp-hero-btns {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lp-hero-btns .lp-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .lp-inner {
+    padding: 0 1.25rem;
+  }
+
+  .lp-title {
+    font-size: 1.625rem;
+  }
+
+  .lp-cta h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lp-header .lp-inner {
+    padding: 0 1rem;
+  }
+
+  .lp-nav {
+    gap: 0.4rem;
+  }
+
+  .lp-nav .lp-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .lp-hero {
+    min-height: 460px;
+  }
+
+  .lp-hero-body h1 {
+    font-size: 1.75rem;
+  }
+}

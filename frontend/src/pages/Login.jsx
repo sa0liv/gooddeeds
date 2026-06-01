@@ -40,6 +40,7 @@ export default function Login() {
       const { data } = await login(form);
       localStorage.setItem('token', data.token);
       localStorage.setItem('usuario', JSON.stringify(data.usuario));
+      sessionStorage.setItem('loginSucesso', 'Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (err) {
       const msg = err.response?.data?.erro || 'Erro ao entrar. Tente novamente.';
