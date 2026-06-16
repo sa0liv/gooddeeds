@@ -9,6 +9,7 @@ Todas as funcionalidades do fluxo de eventos e inscrições foram implementadas.
 ## 📋 Arquivos Criados/Modificados
 
 ### Backend (9 arquivos)
+
 ```
 ✓ src/config/migrate.js (MODIFICADO) - Adicionadas colunas: habilidades, areas_interesse, cidade
 ✓ src/models/Inscricao.js (CRIADO)
@@ -21,6 +22,7 @@ Todas as funcionalidades do fluxo de eventos e inscrições foram implementadas.
 ```
 
 ### Frontend (19 arquivos)
+
 ```
 ✓ src/services/api.js (MODIFICADO) - Adicionadas funções de API
 ✓ src/App.jsx (MODIFICADO) - Adicionadas 8 rotas
@@ -42,6 +44,7 @@ Páginas:
 ## 🚀 Setup Inicial
 
 ### 1. Resetar banco de dados (se necessário)
+
 ```bash
 cd backend
 # Deletar banco antigo (se usar PostgreSQL local)
@@ -53,6 +56,7 @@ npm run migrate
 ```
 
 ### 2. Iniciar servidores
+
 ```bash
 # Terminal 1: Backend
 cd backend
@@ -70,15 +74,18 @@ Acesse: `http://localhost:5173`
 ## 🧪 Fluxo 1: Voluntário Explora e se Inscreve
 
 ### Passo 1: Criar duas contas
+
 1. Cadastro como **VOLUNTARIO** (ex: João Silva / joao@email.com)
 2. Cadastro como **ORGANIZADOR** (ex: Ana Silva / ana@email.com)
 
 **Nota:** O tipo de perfil não é selecionável na UI, mas você pode testar alterando o `tipo_perfil` no banco:
+
 ```sql
 UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 ```
 
 ### Passo 2: Organizador cria evento
+
 1. Login como **ORGANIZADOR** (Ana)
 2. Sidebar → "Meus Eventos"
 3. Clica "+ Criar Evento"
@@ -97,6 +104,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 7. ✅ Evento aparece na lista
 
 ### Passo 3: Voluntário explora e vê compatibilidade
+
 1. Login como **VOLUNTARIO** (João)
 2. Sidebar → "Explorar Eventos"
 3. ✅ Vê evento criado com filtros:
@@ -107,6 +115,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 5. Clica "Ver Detalhes"
 
 ### Passo 4: Ver detalhes e inscrever
+
 1. ✅ Vê todas informações do evento:
    - Descrição completa
    - Organizador (Ana Silva)
@@ -120,6 +129,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 6. ✅ Botão muda para "Cancelar Inscrição"
 
 ### Passo 5: Voluntário vê inscrição em "Minhas Inscrições"
+
 1. Sidebar → "Minhas Inscrições"
 2. ✅ Vê card com:
    - Título do evento
@@ -134,6 +144,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 ## 🧪 Fluxo 2: Organizador Gerencia Inscrições
 
 ### Passo 6: Organizador vê inscrições
+
 1. Login como **ORGANIZADOR** (Ana)
 2. Sidebar → "Meus Eventos"
 3. ✅ Vê evento com 3 botões: "Editar", "Inscrições", "Presença"
@@ -150,12 +161,14 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
    - Botões: "✓ Aprovar" e "✕ Recusar"
 
 ### Passo 7: Aprovar/Recusar inscrições
+
 1. Clica "✓ Aprovar" no voluntário João
 2. ✅ Status muda para **"Aprovado"** (verde)
 3. Botões desaparecem (inscrição já processada)
 4. Contadores atualizam em tempo real
 
 ### Passo 8: Controle de Presença
+
 1. Volta para "Meus Eventos"
 2. Clica botão "Presença"
 3. ✅ Vê página "Controle de Presença" com:
@@ -171,6 +184,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 ## 🧪 Fluxo 3: Editar e Cancelar Evento
 
 ### Passo 9: Editar evento
+
 1. Login como **ORGANIZADOR**
 2. "Meus Eventos" → Botão "Editar"
 3. ✅ Form pré-preenchido com dados atuais
@@ -181,6 +195,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 8. ✅ Título atualizado no card
 
 ### Passo 10: Cancelar evento
+
 1. Clica "Editar" novamente
 2. Botão "Cancelar Evento" (vermelho, no final do form)
 3. Modal de confirmação: "Tem certeza?"
@@ -194,6 +209,7 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 ## 🧪 Fluxo 4: Filtros e Busca
 
 ### Passo 11: Testar filtros em "Explorar Eventos"
+
 1. **Crie 2-3 eventos** com categorias e cidades diferentes
 2. Vá em "Explorar Eventos"
 3. ✅ Todos eventos aparecem inicialmente
@@ -211,10 +227,12 @@ UPDATE usuarios SET tipo_perfil = 'ORGANIZADOR' WHERE id = 2;
 ## 🧪 Fluxo 5: Compatibilidade
 
 ### Passo 12: Testar cálculo de compatibilidade
+
 1. **Backend**: Atualize usuário voluntário com dados:
+
 ```sql
-UPDATE usuarios 
-SET 
+UPDATE usuarios
+SET
   habilidades = ARRAY['Ensino', 'Comunicação', 'Paciência'],
   areas_interesse = ARRAY['Educação', 'Social'],
   cidade = 'São Paulo'
@@ -236,6 +254,7 @@ WHERE id = 1;
 ## ⚠️ Testes de Validação
 
 ### Validação de Inscrições
+
 ```
 1. Voluntário tenta se inscrever 2x no mesmo evento
    ✅ Erro: "Você já está inscrito neste evento"
@@ -255,26 +274,28 @@ WHERE id = 1;
 
 ## 📊 Estados Visuais a Verificar
 
-| Elemento | Estado | Esperado |
-|----------|--------|----------|
-| Badge de Status | Ativo | Verde #2e9e6a |
-| Badge de Status | Completo | Cinza #999 |
-| Status Inscrição | Pendente | Laranja #ff9800 |
-| Status Inscrição | Aprovado | Verde #2e9e6a |
-| Status Inscrição | Recusado | Vermelho #f44336 |
-| Botão Principal | Hover | Escurece para #257d54 |
-| Compatibilidade | Barra | Preenche proporcionalmente |
+| Elemento         | Estado   | Esperado                   |
+| ---------------- | -------- | -------------------------- |
+| Badge de Status  | Ativo    | Verde #2e9e6a              |
+| Badge de Status  | Completo | Cinza #999                 |
+| Status Inscrição | Pendente | Laranja #ff9800            |
+| Status Inscrição | Aprovado | Verde #2e9e6a              |
+| Status Inscrição | Recusado | Vermelho #f44336           |
+| Botão Principal  | Hover    | Escurece para #257d54      |
+| Compatibilidade  | Barra    | Preenche proporcionalmente |
 
 ---
 
 ## 📱 Testes de Responsividade
 
 Teste em breakpoints:
+
 - ✅ Desktop (1200px+)
 - ✅ Tablet (768px-1024px)
 - ✅ Mobile (320px-767px)
 
 Verificar:
+
 - Grids viram single-column
 - Cards são legíveis
 - Botões são clicáveis
@@ -300,6 +321,7 @@ Verificar:
 ## 🎯 Comandos Úteis
 
 ### Resetar dados de teste
+
 ```bash
 # Deletar e recriar banco
 psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS gooddeeds; CREATE DATABASE gooddeeds;"
@@ -309,6 +331,7 @@ npm run migrate
 ```
 
 ### Verificar dados no banco
+
 ```bash
 psql -U postgres -d gooddeeds
 
@@ -327,6 +350,7 @@ SELECT i.id, i.usuario_id, i.evento_id, i.status FROM inscricoes i;
 ## 📝 Checklist de Teste Completo
 
 ### Backend
+
 - [ ] migrate.js cria tabelas corretamente
 - [ ] Endpoints de inscrição retornam 201 (criado)
 - [ ] Validações funcionam (duplicata, vagas)
@@ -334,6 +358,7 @@ SELECT i.id, i.usuario_id, i.evento_id, i.status FROM inscricoes i;
 - [ ] Compatibilidade calcula corretamente
 
 ### Frontend
+
 - [ ] Todas 8 rotas novas funcionam
 - [ ] Filtros atualizam lista
 - [ ] Modal de confirmação aparece
@@ -342,6 +367,7 @@ SELECT i.id, i.usuario_id, i.evento_id, i.status FROM inscricoes i;
 - [ ] Estados vazios mostram mensagens
 
 ### UX/UI
+
 - [ ] Cores seguem paleta do Figma
 - [ ] Cards são consistentes
 - [ ] Badges de status visíveis

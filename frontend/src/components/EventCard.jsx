@@ -43,6 +43,8 @@ export default function EventCard({
 
   const badge = inscricao
     ? (INSCRICAO_STATUS[inscricao.status] || { label: inscricao.status, color: '#67737e' })
+    : evento.status === 'ENCERRADO'
+    ? { label: 'Encerrado', color: '#9ca3af' }
     : { label: evento.vagas > 0 ? 'Aberto' : 'Completo', color: evento.vagas > 0 ? '#2e9e6a' : '#999' };
 
   const matchColor =
@@ -84,6 +86,18 @@ export default function EventCard({
           <span className="event-info-text">{evento.vagas} vagas</span>
         </div>
       </div>
+
+      {evento.mediaOrganizador != null && (
+        <div className="event-organizer-rating">
+          <span className="organizer-rating-stars">
+            {'★'.repeat(Math.round(evento.mediaOrganizador))}{'☆'.repeat(5 - Math.round(evento.mediaOrganizador))}
+          </span>
+          <span className="organizer-rating-text">
+            {evento.mediaOrganizador}/5 do organizador
+            <span className="organizer-rating-count"> ({evento.totalAvaliacoesOrganizador} aval.)</span>
+          </span>
+        </div>
+      )}
 
       {evento.categoria && (
         <div className="event-card-tags">

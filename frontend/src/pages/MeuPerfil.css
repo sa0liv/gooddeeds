@@ -31,6 +31,36 @@
   margin: 0 0 1.25rem 0;
 }
 
+.perfil-rating-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  background: #f0faf5;
+  border: 1px solid #c3e6d5;
+  border-radius: 8px;
+  color: #257d54;
+}
+
+.perfil-rating-box div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.perfil-rating-label,
+.perfil-rating-box > span {
+  font-size: 0.8125rem;
+  color: #557064;
+}
+
+.perfil-rating-box strong {
+  font-size: 1.25rem;
+  color: #1d2630;
+}
+
 .perfil-campo {
   display: flex;
   flex-direction: column;

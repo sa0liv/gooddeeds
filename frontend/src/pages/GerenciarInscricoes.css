@@ -207,6 +207,28 @@
   margin: 0;
 }
 
+.voluntario-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+  color: #67737e;
+  font-size: 0.8125rem;
+}
+
+.voluntario-rating-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  padding: 0.1875rem 0.375rem;
+  background: #f0faf5;
+  color: #257d54;
+  border: 1px solid #c3e6d5;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
 /* Compatibilidade */
 
 .inscricao-item-compatibilidade {
@@ -254,7 +276,8 @@
 }
 
 .btn-aprovar,
-.btn-recusar {
+.btn-recusar,
+.btn-avaliar-inscrito {
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 6px;
@@ -284,8 +307,18 @@
   background: #da190b;
 }
 
+.btn-avaliar-inscrito {
+  background: #1d2630;
+  color: #fff;
+}
+
+.btn-avaliar-inscrito:hover:not(:disabled) {
+  background: #354252;
+}
+
 .btn-aprovar:disabled,
-.btn-recusar:disabled {
+.btn-recusar:disabled,
+.btn-avaliar-inscrito:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

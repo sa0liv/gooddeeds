@@ -4,6 +4,7 @@ const inscricaoController = require('../controllers/InscricaoController');
 const { autenticar } = require('../middleware/auth');
 
 router.post('/', autenticar, (req, res) => inscricaoController.inscrever(req, res));
+router.get('/historico', autenticar, (req, res) => inscricaoController.historico(req, res));
 router.get('/', autenticar, (req, res) => inscricaoController.minhasInscricoes(req, res));
 router.get('/evento/:evento_id', autenticar, (req, res) => inscricaoController.inscricoesDoEvento(req, res));
 router.put('/:id/aprovar', autenticar, (req, res) => inscricaoController.aprovar(req, res));

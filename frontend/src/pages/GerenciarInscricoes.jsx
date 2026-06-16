@@ -8,7 +8,6 @@ import './GerenciarInscricoes.css';
 export default function GerenciarInscricoes() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
 
   const [evento, setEvento] = useState(null);
   const [inscricoes, setInscricoes] = useState([]);
@@ -183,6 +182,8 @@ export default function GerenciarInscricoes() {
                   evento
                 );
                 const statusConfig = getStatusConfig(inscricao.status);
+                const totalAvaliacoes = Number(inscricao.voluntario_total_avaliacoes || 0);
+                const mediaAvaliacoes = Number(inscricao.voluntario_media_avaliacoes || 0);
 
                 return (
                   <div key={inscricao.id} className="inscricao-item">
@@ -205,6 +206,16 @@ export default function GerenciarInscricoes() {
                         {inscricao.cidade && (
                           <p className="voluntario-city">📍 {inscricao.cidade}</p>
                         )}
+                        <div className="voluntario-rating">
+                          {totalAvaliacoes > 0 ? (
+                            <>
+                              <span className="voluntario-rating-score">{mediaAvaliacoes.toFixed(1)}</span>
+                              <span>Media do voluntario ({totalAvaliacoes})</span>
+                            </>
+                          ) : (
+                            <span>Sem avaliacoes de organizadores</span>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -239,6 +250,16 @@ export default function GerenciarInscricoes() {
                           disabled={processando === inscricao.id}
                         >
                           ✕ Recusar
+                        </button>
+                      </div>
+                    )}
+                    {inscricao.status === 'CONFIRMADA' && inscricao.presenca === true && (
+                      <div className="inscricao-item-actions">
+                        <button
+                          className="btn-avaliar-inscrito"
+                          onClick={() => navigate(`/avaliar-voluntario/${id}/${inscricao.usuario_id}`)}
+                        >
+                          Avaliar
                         </button>
                       </div>
                     )}

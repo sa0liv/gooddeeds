@@ -7,11 +7,21 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "migrate": "node src/config/migrate.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:frontend": "cd ../frontend && npm ci && npm run build",
+    "prepare:assets": "node -e \"const fs=require('fs'); const path=require('path'); const src=path.join(process.cwd(),'..','frontend','dist'); const dest=path.join(process.cwd(),'dist'); if(!fs.existsSync(src)) throw new Error('frontend/dist nao encontrado. Rode npm run build:frontend'); fs.rmSync(dest,{recursive:true,force:true}); fs.mkdirSync(dest,{recursive:true}); for(const entry of fs.readdirSync(src,{withFileTypes:true})) { const from=path.join(src,entry.name); const to=path.join(dest,entry.name); if(entry.isDirectory()) { fs.cpSync(from,to,{recursive:true}); } else { fs.copyFileSync(from,to); } } console.log('Assets do frontend copiados para backend/dist');\"",
+    "build:all": "npm run build:frontend && npm run prepare:assets",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pkg": "pkg main-pkg.js --targets node18-win-x64 --output app.exe"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "pkg": {
+    "assets": [
+      "dist/**/*",
+      "src/**/*"
+    ]
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
@@ -22,6 +32,7 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "pkg": "^5.8.1"
   }
 }

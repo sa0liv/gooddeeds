@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { obterEvento, inscreverEvento, minhasInscricoes } from '../services/api';
+import { obterEvento, inscreverEvento, minhasInscricoes, resumoAvaliacoes } from '../services/api';
 import { calcularCompatibilidade } from '../utils/compatibilidade';
 import './DetalhesEvento.css';
 
@@ -27,6 +27,76 @@ function TimerIcon() {
   return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>;
 }
 
+const STOPWORDS = new Set([
+  'de', 'a', 'o', 'e', 'que', 'para', 'com', 'foi', 'muito', 'um', 'uma',
+  'os', 'as', 'em', 'do', 'da', 'dos', 'das', 'no', 'na', 'nos', 'nas',
+  'se', 'por', 'mas', 'ao', 'isso', 'mais', 'eu', 'ele', 'ela',
+  'ser', 'ter', 'já', 'não', 'sim', 'bem', 'só', 'até', 'quando', 'como', 'também',
+]);
+
+const CLOUD_COLORS = [
+  '#2e9e6a', '#3b82f6', '#f59e0b', '#e84855', '#8b5cf6',
+  '#06b6d4', '#ec4899', '#10b981', '#f97316', '#6366f1',
+  '#14b8a6', '#d97706', '#a855f7', '#0ea5e9', '#ef4444',
+];
+
+function calcularPalavrasFrequentes(comentarios) {
+  const textos = comentarios.flatMap(c => [
+    c.melhor_parte_texto || '',
+    c.pontos_melhoria_texto || '',
+    c.comentarios_adicionais || '',
+  ]).join(' ');
+
+  const palavras = textos
+    .toLowerCase()
+    .replace(/[^a-záéíóúàâêôãõüç\s]/gi, ' ')
+    .split(/\s+/)
+    .filter(p => p.length > 2 && !STOPWORDS.has(p));
+
+  const freq = {};
+  for (const p of palavras) {
+    freq[p] = (freq[p] || 0) + 1;
+  }
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 30)
+    .map(([palavra, contagem]) => ({ palavra, contagem }));
+}
+
+function WordCloud({ palavras }) {
+  if (palavras.length === 0) {
+    return (
+      <p className="de-wordcloud-vazia">
+        Ainda não há comentários para gerar a nuvem de palavras.
+      </p>
+    );
+  }
+
+  const maxFreq = palavras[0]?.contagem || 1;
+  const minSize = 0.85;
+  const maxSize = 2.2;
+
+  return (
+    <div className="de-wordcloud">
+      {palavras.map(({ palavra, contagem }, idx) => {
+        const tamanho = minSize + ((contagem / maxFreq) * (maxSize - minSize));
+        const opacity = 0.6 + (contagem / maxFreq) * 0.4;
+        const cor = CLOUD_COLORS[idx % CLOUD_COLORS.length];
+        return (
+          <span
+            key={palavra}
+            className="de-wordcloud-word"
+            style={{ fontSize: `${tamanho}rem`, opacity, color: cor }}
+            title={`${contagem} ocorrência${contagem > 1 ? 's' : ''}`}
+          >
+            {palavra}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function DetalhesEvento() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,6 +109,7 @@ export default function DetalhesEvento() {
   const [jaInscrito, setJaInscrito] = useState(false);
   const [inscrevendo, setInscrevendo] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [palavras, setPalavras] = useState([]);
 
   useEffect(() => {
     carregarDetalhes();
@@ -52,12 +123,26 @@ export default function DetalhesEvento() {
         minhasInscricoes().catch(() => null),
       ]);
 
-      setEvento(eventoRes.data);
+      const ev = eventoRes.data;
+      setEvento(ev);
+
       if (inscricoeRes) {
         setInscricoes(inscricoeRes.data);
         const jaInscrito = inscricoeRes.data.some(i => i.evento_id === parseInt(id));
         setJaInscrito(jaInscrito);
       }
+
+      if (ev.status === 'ENCERRADO') {
+        try {
+          const resumoRes = await resumoAvaliacoes(id);
+          if (resumoRes.data?.comentarios?.length > 0) {
+            setPalavras(calcularPalavrasFrequentes(resumoRes.data.comentarios));
+          }
+        } catch {
+          // sem avaliações, ok
+        }
+      }
+
       setErroGeral('');
     } catch (err) {
       const msg = err.response?.data?.erro || 'Erro ao carregar evento';
@@ -73,7 +158,6 @@ export default function DetalhesEvento() {
       await inscreverEvento(id);
       setJaInscrito(true);
       setShowConfirm(false);
-      // Recarrega inscrições
       const res = await minhasInscricoes();
       setInscricoes(res.data);
       setErroGeral('');
@@ -116,10 +200,14 @@ export default function DetalhesEvento() {
     );
   }
 
+  const encerrado = evento.status === 'ENCERRADO';
   const compatibilidade = calcularCompatibilidade(usuario, evento);
   const isOrganizador = usuario.id === evento.criadorId;
   const temVagas = evento.vagas > 0;
-  const podeInscrever = !isOrganizador && !jaInscrito && temVagas;
+  const podeInscrever = !isOrganizador && !jaInscrito && temVagas && !encerrado;
+
+  const badgeClass = encerrado ? 'encerrado' : temVagas ? 'ativo' : 'completo';
+  const badgeLabel = encerrado ? 'Encerrado' : temVagas ? 'Aberto' : 'Completo';
 
   return (
     <div className="app-layout">
@@ -133,8 +221,8 @@ export default function DetalhesEvento() {
           <div className="evento-detalhes-header">
             <div className="evento-detalhes-title">
               <h1>{evento.titulo}</h1>
-              <span className={`status-badge ${temVagas ? 'ativo' : 'completo'}`}>
-                {temVagas ? 'Aberto' : 'Completo'}
+              <span className={`status-badge ${badgeClass}`}>
+                {badgeLabel}
               </span>
             </div>
           </div>
@@ -202,6 +290,17 @@ export default function DetalhesEvento() {
                   </div>
                 </section>
               )}
+
+              {/* Nuvem de palavras — só para eventos encerrados */}
+              {encerrado && (
+                <section className="detalhes-section de-historico-section">
+                  <h2>Nuvem de Palavras das Avaliações</h2>
+                  <p className="de-historico-desc">
+                    Palavras mais mencionadas pelos voluntários que participaram deste evento.
+                  </p>
+                  <WordCloud palavras={palavras} />
+                </section>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -219,7 +318,7 @@ export default function DetalhesEvento() {
                 </div>
               </div>
 
-              {!isOrganizador && (
+              {!isOrganizador && !encerrado && (
                 <div className="detalhes-card compatibilidade-card">
                   <h3>Compatibilidade</h3>
                   <div className="compatibilidade-display">
@@ -237,7 +336,16 @@ export default function DetalhesEvento() {
                 </div>
               )}
 
-              {isOrganizador ? (
+              {encerrado ? (
+                <div className="detalhes-card">
+                  <p className="info-texto" style={{ color: '#9ca3af', fontWeight: 600 }}>
+                    Este evento foi encerrado
+                  </p>
+                  <p style={{ fontSize: '0.85rem', color: '#67737e', marginTop: '0.5rem' }}>
+                    Confira a nuvem de palavras das avaliações ao lado.
+                  </p>
+                </div>
+              ) : isOrganizador ? (
                 <div className="detalhes-card">
                   <p className="info-texto" style={{ color: '#2e9e6a' }}>
                     Este é seu evento

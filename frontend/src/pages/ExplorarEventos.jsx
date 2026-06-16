@@ -27,6 +27,15 @@ function SearchIcon() {
   );
 }
 
+function HistoricoIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+}
+
 export default function ExplorarEventos() {
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
@@ -80,6 +89,9 @@ export default function ExplorarEventos() {
     return true;
   });
 
+  const eventosAtivos = eventosFiltrados.filter(e => e.status !== 'ENCERRADO');
+  const eventosEncerrados = eventosFiltrados.filter(e => e.status === 'ENCERRADO');
+
   return (
     <div className="app-layout">
       <Sidebar />
@@ -130,31 +142,72 @@ export default function ExplorarEventos() {
           <div className="loading-state">
             <p>Carregando eventos...</p>
           </div>
-        ) : eventosFiltrados.length === 0 ? (
-          <div className="empty-state">
-            <p>Nenhum evento encontrado com os filtros selecionados</p>
-          </div>
         ) : (
-          <div className="eventos-grid">
-            {eventosFiltrados.map(evento => {
-              const compatibilidade = calcularCompatibilidade(usuario, evento);
-              return (
-                <EventCard
-                  key={evento.id}
-                  evento={evento}
-                  compatibilidade={compatibilidade}
-                  showCompatibilidade={true}
-                  actions={[
-                    {
-                      label: 'Ver Detalhes',
-                      variant: 'primary',
-                      onClick: () => navigate(`/evento/${evento.id}`),
-                    },
-                  ]}
-                />
-              );
-            })}
-          </div>
+          <>
+            {/* Eventos ativos */}
+            {eventosAtivos.length === 0 && eventosEncerrados.length === 0 ? (
+              <div className="empty-state">
+                <p>Nenhum evento encontrado com os filtros selecionados</p>
+              </div>
+            ) : (
+              <>
+                {eventosAtivos.length > 0 && (
+                  <div className="eventos-grid">
+                    {eventosAtivos.map(evento => {
+                      const compatibilidade = calcularCompatibilidade(usuario, evento);
+                      return (
+                        <EventCard
+                          key={evento.id}
+                          evento={evento}
+                          compatibilidade={compatibilidade}
+                          showCompatibilidade={true}
+                          actions={[
+                            {
+                              label: 'Ver Detalhes',
+                              variant: 'primary',
+                              onClick: () => navigate(`/evento/${evento.id}`),
+                            },
+                          ]}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Seção Histórico */}
+                {eventosEncerrados.length > 0 && (
+                  <div className="historico-section">
+                    <div className="historico-header">
+                      <HistoricoIcon />
+                      <h2>Histórico de Eventos</h2>
+                      <span className="historico-count">{eventosEncerrados.length} encerrado{eventosEncerrados.length !== 1 ? 's' : ''}</span>
+                    </div>
+                    <p className="historico-desc">Eventos já realizados. Clique em "Ver Detalhes" para ver avaliações e nuvem de palavras.</p>
+                    <div className="eventos-grid historico-grid">
+                      {eventosEncerrados.map(evento => {
+                        const compatibilidade = calcularCompatibilidade(usuario, evento);
+                        return (
+                          <EventCard
+                            key={evento.id}
+                            evento={evento}
+                            compatibilidade={compatibilidade}
+                            showCompatibilidade={false}
+                            actions={[
+                              {
+                                label: 'Ver Detalhes',
+                                variant: 'secondary',
+                                onClick: () => navigate(`/evento/${evento.id}`),
+                              },
+                            ]}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </>
         )}
       </main>
     </div>

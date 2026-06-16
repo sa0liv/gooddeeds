@@ -76,9 +76,19 @@ class InscricaoRepository {
 
   async findWithUsuarioData(evento_id) {
     const result = await pool.query(
-      `SELECT i.*, u.nome, u.email, u.telefone, u.habilidades, u.areas_interesse, u.cidade
+      `SELECT i.*, u.nome, u.email, u.telefone, u.habilidades, u.areas_interesse, u.cidade,
+              COALESCE(av.total_avaliacoes, 0)::int AS voluntario_total_avaliacoes,
+              av.media_geral AS voluntario_media_avaliacoes
        FROM inscricoes i
        JOIN usuarios u ON i.usuario_id = u.id
+       LEFT JOIN (
+         SELECT
+           voluntario_id,
+           COUNT(*)::int AS total_avaliacoes,
+           ROUND(AVG((pontualidade_nota + colaboracao_nota + comprometimento_nota + desempenho_nota)::numeric / 4), 1) AS media_geral
+         FROM avaliacoes_voluntarios
+         GROUP BY voluntario_id
+       ) av ON av.voluntario_id = u.id
        WHERE i.evento_id = $1
        ORDER BY i.created_at DESC`,
       [evento_id]
@@ -93,6 +103,21 @@ class InscricaoRepository {
     const params = status ? [evento_id, status] : [evento_id];
     const result = await pool.query(query, params);
     return parseInt(result.rows[0].count);
+  }
+
+  async findHistoricoByUsuario(usuario_id) {
+    const result = await pool.query(
+      `SELECT i.*, e.titulo, e.data, e.horario, e.local, e.categoria, e.cidade,
+              e.id AS evento_id
+       FROM inscricoes i
+       JOIN eventos e ON i.evento_id = e.id
+       WHERE i.usuario_id = $1
+         AND i.status = 'CONFIRMADA'
+         AND i.presenca = true
+       ORDER BY e.data DESC`,
+      [usuario_id]
+    );
+    return result.rows;
   }
 }
 

@@ -93,6 +93,23 @@ class EventoController {
       res.status(400).json({ erro: error.message });
     }
   }
+
+  async encerrar(req, res) {
+    try {
+      const { id } = req.params;
+      const evento = await eventoService.encerrarEvento(id, req.usuario.id);
+      res.json(evento);
+    } catch (error) {
+      if (error.message === 'Permissão negada') {
+        return res.status(403).json({ erro: error.message });
+      }
+      if (error.message === 'Evento não encontrado') {
+        return res.status(404).json({ erro: error.message });
+      }
+      console.error(error);
+      res.status(400).json({ erro: error.message });
+    }
+  }
 }
 
 module.exports = new EventoController();

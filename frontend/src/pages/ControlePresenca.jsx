@@ -62,6 +62,9 @@ export default function ControlePresenca() {
         inscricoes.map(i => registrarPresenca(i.id, presencas[i.id] === true))
       );
       setToastMsg('Presenças salvas com sucesso!');
+      setInscricoes(prev =>
+        prev.map(i => ({ ...i, presenca: presencas[i.id] === true }))
+      );
       setTimeout(() => setToastMsg(''), 3000);
     } catch (err) {
       setErroGeral(err.response?.data?.erro || 'Erro ao salvar presenças');
@@ -173,6 +176,14 @@ export default function ControlePresenca() {
                       {presente ? (
                         <>
                           <span className="badge-presente">✓ Presente</span>
+                          {inscricao.presenca === true && (
+                            <button
+                              className="btn-avaliar-voluntario"
+                              onClick={() => navigate(`/avaliar-voluntario/${id}/${inscricao.usuario_id}`)}
+                            >
+                              Avaliar
+                            </button>
+                          )}
                           <button
                             className="btn-concluir-individual"
                             onClick={() => togglePresenca(inscricao.id)}

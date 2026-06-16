@@ -55,6 +55,46 @@ async function migrate() {
   await pool.query(`ALTER TABLE inscricoes ADD COLUMN IF NOT EXISTS presenca BOOLEAN DEFAULT NULL`);
   console.log('Tabela inscricoes criada/verificada com sucesso.');
 
+  await pool.query(`ALTER TABLE eventos ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'ATIVO'`);
+  console.log('Coluna status adicionada/verificada em eventos.');
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS avaliacoes (
+      id                      SERIAL PRIMARY KEY,
+      evento_id               INTEGER NOT NULL REFERENCES eventos(id) ON DELETE CASCADE,
+      voluntario_id           INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+      organizacao_nota        INTEGER NOT NULL CHECK (organizacao_nota BETWEEN 1 AND 5),
+      comunicacao_nota        INTEGER NOT NULL CHECK (comunicacao_nota BETWEEN 1 AND 5),
+      clareza_nota            INTEGER NOT NULL CHECK (clareza_nota BETWEEN 1 AND 5),
+      experiencia_nota        INTEGER NOT NULL CHECK (experiencia_nota BETWEEN 1 AND 5),
+      melhor_parte_texto      TEXT,
+      pontos_melhoria_texto   TEXT,
+      comentarios_adicionais  TEXT,
+      created_at              TIMESTAMP DEFAULT NOW(),
+      UNIQUE(voluntario_id, evento_id)
+    );
+  `);
+  console.log('Tabela avaliacoes criada/verificada com sucesso.');
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS avaliacoes_voluntarios (
+      id                       SERIAL PRIMARY KEY,
+      evento_id                INTEGER NOT NULL REFERENCES eventos(id) ON DELETE CASCADE,
+      voluntario_id            INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+      organizador_id           INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+      pontualidade_nota        INTEGER NOT NULL CHECK (pontualidade_nota BETWEEN 1 AND 5),
+      colaboracao_nota         INTEGER NOT NULL CHECK (colaboracao_nota BETWEEN 1 AND 5),
+      comprometimento_nota     INTEGER NOT NULL CHECK (comprometimento_nota BETWEEN 1 AND 5),
+      desempenho_nota          INTEGER NOT NULL CHECK (desempenho_nota BETWEEN 1 AND 5),
+      pontos_fortes_texto      TEXT,
+      pontos_melhoria_texto    TEXT,
+      comentarios_adicionais   TEXT,
+      created_at               TIMESTAMP DEFAULT NOW(),
+      UNIQUE(organizador_id, voluntario_id, evento_id)
+    );
+  `);
+  console.log('Tabela avaliacoes_voluntarios criada/verificada com sucesso.');
+
   await pool.end();
 }
 

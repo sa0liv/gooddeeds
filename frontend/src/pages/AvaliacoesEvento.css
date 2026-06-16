@@ -1,0 +1,245 @@
+.avaliacoes-evento-main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: #2e9e6a;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+.btn-voltar:hover { text-decoration: underline; }
+
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  color: #67737e;
+}
+
+.alert { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.875rem; }
+.alert-erro { background: #ffebee; color: #c62828; border: 1px solid #f44336; }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.empty-state p { margin: 0; }
+.empty-state p:first-child { font-size: 1.125rem; color: #1d2630; font-weight: 600; }
+.empty-state-sub { font-size: 0.9375rem; color: #67737e; }
+
+/* Header */
+.ae-header { margin-bottom: 2rem; }
+.ae-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1d2630;
+  margin: 0 0 0.375rem;
+}
+.ae-evento-nome {
+  font-size: 1rem;
+  color: #67737e;
+  margin: 0;
+}
+
+/* Resumo */
+.resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resumo-card {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.resumo-destaque { border-color: #c3e6d5; background: #f0faf5; }
+
+.resumo-numero {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #2e9e6a;
+  line-height: 1;
+}
+.resumo-titulo {
+  font-size: 0.8125rem;
+  color: #67737e;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Médias */
+.medias-section,
+.wordcloud-section,
+.comentarios-section {
+  background: #fff;
+  border: 1px solid #dae0e7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.medias-section h2,
+.wordcloud-section h2,
+.comentarios-section h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1d2630;
+  margin: 0 0 1rem;
+}
+
+.section-desc {
+  font-size: 0.875rem;
+  color: #67737e;
+  margin: -0.5rem 0 1rem;
+}
+
+.medias-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.media-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.media-criterio {
+  font-size: 0.875rem;
+  color: #1d2630;
+  min-width: 220px;
+}
+
+.mini-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+}
+
+.mini-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mini-bar-fill {
+  height: 100%;
+  background: #2e9e6a;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.mini-bar-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #2e9e6a;
+  min-width: 28px;
+}
+
+/* Word Cloud */
+.wordcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  min-height: 100px;
+}
+
+.wordcloud-word {
+  font-weight: 700;
+  cursor: default;
+  transition: transform 0.15s;
+  line-height: 1.2;
+}
+.wordcloud-word:hover { transform: scale(1.1); }
+
+.wordcloud-vazia {
+  color: #67737e;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1.5rem;
+  width: 100%;
+  margin: 0;
+}
+
+/* Comentários */
+.comentarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comentario-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.comentario-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.comentario-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #67737e;
+}
+.comentario-label.positivo { color: #2e7d32; }
+.comentario-label.melhoria { color: #b45309; }
+
+.comentario-bloco p {
+  font-size: 0.9rem;
+  color: #1d2630;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .avaliacoes-evento-main { padding: 1rem; }
+  .ae-header h1 { font-size: 1.5rem; }
+  .media-item { flex-direction: column; align-items: flex-start; gap: 0.375rem; }
+  .media-criterio { min-width: unset; }
+  .mini-bar-wrap { width: 100%; }
+  .resumo-grid { grid-template-columns: repeat(2, 1fr); }
+}

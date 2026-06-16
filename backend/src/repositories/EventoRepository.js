@@ -14,9 +14,18 @@ class EventoRepository {
 
   async findById(id) {
     const result = await pool.query(
-      `SELECT e.*, u.nome as criador_nome, u.email as criador_email
+      `SELECT e.*, u.nome as criador_nome, u.email as criador_email,
+         org.media_organizador, org.total_avaliacoes_organizador
        FROM eventos e
        JOIN usuarios u ON e.criador_id = u.id
+       LEFT JOIN (
+         SELECT e2.criador_id,
+           ROUND(AVG((av.organizacao_nota + av.comunicacao_nota + av.clareza_nota + av.experiencia_nota)::numeric / 4), 1) AS media_organizador,
+           COUNT(av.id)::int AS total_avaliacoes_organizador
+         FROM avaliacoes av
+         JOIN eventos e2 ON av.evento_id = e2.id
+         GROUP BY e2.criador_id
+       ) org ON org.criador_id = e.criador_id
        WHERE e.id = $1`,
       [id]
     );
@@ -25,8 +34,30 @@ class EventoRepository {
   }
 
   async findAll() {
-    const result = await pool.query('SELECT * FROM eventos ORDER BY data ASC');
+    const result = await pool.query(
+      `SELECT e.*,
+         org.media_organizador, org.total_avaliacoes_organizador
+       FROM eventos e
+       LEFT JOIN (
+         SELECT e2.criador_id,
+           ROUND(AVG((av.organizacao_nota + av.comunicacao_nota + av.clareza_nota + av.experiencia_nota)::numeric / 4), 1) AS media_organizador,
+           COUNT(av.id)::int AS total_avaliacoes_organizador
+         FROM avaliacoes av
+         JOIN eventos e2 ON av.evento_id = e2.id
+         GROUP BY e2.criador_id
+       ) org ON org.criador_id = e.criador_id
+       ORDER BY CASE WHEN e.status = 'ENCERRADO' THEN 1 ELSE 0 END ASC, e.data ASC`
+    );
     return result.rows.map(row => new Evento(row));
+  }
+
+  async encerrar(id) {
+    const result = await pool.query(
+      `UPDATE eventos SET status = 'ENCERRADO', updated_at = NOW() WHERE id = $1 RETURNING *`,
+      [id]
+    );
+    if (result.rows.length === 0) return null;
+    return new Evento(result.rows[0]);
   }
 
   async findByCreador(criador_id) {
@@ -35,12 +66,42 @@ class EventoRepository {
   }
 
   async findByCategoria(categoria) {
-    const result = await pool.query('SELECT * FROM eventos WHERE categoria = $1 ORDER BY data ASC', [categoria]);
+    const result = await pool.query(
+      `SELECT e.*,
+         org.media_organizador, org.total_avaliacoes_organizador
+       FROM eventos e
+       LEFT JOIN (
+         SELECT e2.criador_id,
+           ROUND(AVG((av.organizacao_nota + av.comunicacao_nota + av.clareza_nota + av.experiencia_nota)::numeric / 4), 1) AS media_organizador,
+           COUNT(av.id)::int AS total_avaliacoes_organizador
+         FROM avaliacoes av
+         JOIN eventos e2 ON av.evento_id = e2.id
+         GROUP BY e2.criador_id
+       ) org ON org.criador_id = e.criador_id
+       WHERE e.categoria = $1
+       ORDER BY e.data ASC`,
+      [categoria]
+    );
     return result.rows.map(row => new Evento(row));
   }
 
   async findByCidade(cidade) {
-    const result = await pool.query('SELECT * FROM eventos WHERE cidade = $1 ORDER BY data ASC', [cidade]);
+    const result = await pool.query(
+      `SELECT e.*,
+         org.media_organizador, org.total_avaliacoes_organizador
+       FROM eventos e
+       LEFT JOIN (
+         SELECT e2.criador_id,
+           ROUND(AVG((av.organizacao_nota + av.comunicacao_nota + av.clareza_nota + av.experiencia_nota)::numeric / 4), 1) AS media_organizador,
+           COUNT(av.id)::int AS total_avaliacoes_organizador
+         FROM avaliacoes av
+         JOIN eventos e2 ON av.evento_id = e2.id
+         GROUP BY e2.criador_id
+       ) org ON org.criador_id = e.criador_id
+       WHERE e.cidade = $1
+       ORDER BY e.data ASC`,
+      [cidade]
+    );
     return result.rows.map(row => new Evento(row));
   }
 

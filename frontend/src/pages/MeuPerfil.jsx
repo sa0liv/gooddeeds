@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { atualizarPerfil } from '../services/api';
+import { atualizarPerfil, resumoAvaliacaoVoluntario } from '../services/api';
 import CidadeSelect from '../components/CidadeSelect';
 import './MeuPerfil.css';
 
@@ -22,8 +22,24 @@ export default function MeuPerfil() {
   const [interesses, setInteresses] = useState(usuarioSalvo.areas_interesse || perfilSalvo.interesses || []);
   const [novaHabilidade, setNovaHabilidade] = useState('');
   const [carregando, setCarregando] = useState(false);
+  const [resumoAvaliacao, setResumoAvaliacao] = useState(null);
   const [sucesso, setSucesso] = useState('');
   const [erroGeral, setErroGeral] = useState('');
+
+  useEffect(() => {
+    carregarResumoAvaliacao();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const carregarResumoAvaliacao = async () => {
+    if (!usuarioSalvo.id) return;
+    try {
+      const { data } = await resumoAvaliacaoVoluntario(usuarioSalvo.id);
+      setResumoAvaliacao(data);
+    } catch {
+      setResumoAvaliacao(null);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +115,20 @@ export default function MeuPerfil() {
         <form onSubmit={handleSubmit} className="perfil-form">
           <div className="perfil-card">
             <h2 className="perfil-section-title">Informações básicas</h2>
+
+            <div className="perfil-rating-box">
+              <div>
+                <span className="perfil-rating-label">Media como voluntario</span>
+                <strong>
+                  {resumoAvaliacao?.totalAvaliacoes > 0
+                    ? resumoAvaliacao.mediaGeral.toFixed(1)
+                    : 'Sem avaliacoes'}
+                </strong>
+              </div>
+              {resumoAvaliacao?.totalAvaliacoes > 0 && (
+                <span>{resumoAvaliacao.totalAvaliacoes} avaliacao(oes)</span>
+              )}
+            </div>
 
             <div className="perfil-campo">
               <label>Nome</label>

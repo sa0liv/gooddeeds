@@ -73,6 +73,10 @@
   background: #999;
 }
 
+.status-badge.encerrado {
+  background: #6b7280;
+}
+
 /* Grid Principal */
 
 .evento-detalhes-grid {
@@ -325,6 +329,53 @@
 .btn-detalhe:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Nuvem de palavras (histórico) */
+
+.de-historico-section {
+  background: #fafbff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+}
+
+.de-historico-desc {
+  font-size: 0.85rem;
+  color: #67737e;
+  margin: -0.5rem 0 1rem;
+}
+
+.de-wordcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  min-height: 80px;
+}
+
+.de-wordcloud-word {
+  font-weight: 700;
+  cursor: default;
+  transition: transform 0.15s;
+  line-height: 1.2;
+}
+
+.de-wordcloud-word:hover {
+  transform: scale(1.12);
+}
+
+.de-wordcloud-vazia {
+  color: #67737e;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
 }
 
 /* Alerts */

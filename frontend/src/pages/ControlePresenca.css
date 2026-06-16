@@ -200,14 +200,15 @@
 }
 
 .btn-marcar-presente,
-.btn-concluir-individual {
+.btn-concluir-individual,
+.btn-avaliar-voluntario {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
   font-family: inherit;
 }
 
@@ -227,6 +228,17 @@
 
 .btn-concluir-individual:hover {
   background: #eeeeee;
+}
+
+.btn-avaliar-voluntario {
+  background: #f4f7fb;
+  color: #1d2630;
+  border: 1px solid #dae0e7;
+}
+
+.btn-avaliar-voluntario:hover {
+  border-color: #2e9e6a;
+  color: #2e9e6a;
 }
 
 @media (max-width: 768px) {

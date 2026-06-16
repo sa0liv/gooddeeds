@@ -72,6 +72,10 @@ class InscricaoService {
     return inscricaoRepository.updatePresenca(inscricao_id, presente);
   }
 
+  async historicoParticipacoes(usuario_id) {
+    return inscricaoRepository.findHistoricoByUsuario(usuario_id);
+  }
+
   async contarInscricoesPorEvento(evento_id) {
     const total = await inscricaoRepository.countByEvento(evento_id);
     const confirmadas = await inscricaoRepository.countByEvento(evento_id, 'CONFIRMADA');

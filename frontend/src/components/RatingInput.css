@@ -1,0 +1,47 @@
+.rating-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.rating-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1d2630;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: #dae0e7;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s, transform 0.1s;
+}
+
+.star-btn.active {
+  color: #f59e0b;
+}
+
+.star-btn:hover:not(:disabled) {
+  transform: scale(1.15);
+}
+
+.star-btn:disabled {
+  cursor: default;
+}
+
+.rating-value {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #67737e;
+}

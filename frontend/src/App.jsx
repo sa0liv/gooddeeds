@@ -13,6 +13,11 @@ import GerenciarInscricoes from './pages/GerenciarInscricoes';
 import ControlePresenca from './pages/ControlePresenca';
 import Comprovantes from './pages/Comprovantes';
 import MeuPerfil from './pages/MeuPerfil';
+import HistoricoParticipacoes from './pages/HistoricoParticipacoes';
+import AvaliarEvento from './pages/AvaliarEvento';
+import AvaliarVoluntario from './pages/AvaliarVoluntario';
+import MinhasAvaliacoes from './pages/MinhasAvaliacoes';
+import AvaliacoesEvento from './pages/AvaliacoesEvento';
 import './App.css';
 
 export default function App() {
@@ -33,6 +38,11 @@ export default function App() {
         <Route path="/evento/:id/presenca" element={<ControlePresenca />} />
         <Route path="/comprovantes" element={<Comprovantes />} />
         <Route path="/perfil" element={<MeuPerfil />} />
+        <Route path="/historico" element={<HistoricoParticipacoes />} />
+        <Route path="/avaliar-evento/:eventoId" element={<AvaliarEvento />} />
+        <Route path="/avaliar-voluntario/:eventoId/:voluntarioId" element={<AvaliarVoluntario />} />
+        <Route path="/minhas-avaliacoes" element={<MinhasAvaliacoes />} />
+        <Route path="/evento/:id/avaliacoes" element={<AvaliacoesEvento />} />
       </Routes>
     </BrowserRouter>
   );

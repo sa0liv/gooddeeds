@@ -106,6 +106,17 @@ class InscricaoController {
     }
   }
 
+  async historico(req, res) {
+    try {
+      const usuario_id = req.usuario.id;
+      const historico = await inscricaoService.historicoParticipacoes(usuario_id);
+      res.json(historico);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ erro: 'Erro ao carregar histórico de participações' });
+    }
+  }
+
   async cancelar(req, res) {
     try {
       const { id } = req.params;

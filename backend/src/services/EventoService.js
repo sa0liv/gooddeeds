@@ -78,6 +78,23 @@ class EventoService {
 
     return await eventoRepository.delete(id);
   }
+
+  async encerrarEvento(id, usuarioId) {
+    const evento = await eventoRepository.findById(id);
+    if (!evento) {
+      throw new Error('Evento não encontrado');
+    }
+
+    if (evento.criadorId !== usuarioId) {
+      throw new Error('Permissão negada');
+    }
+
+    if (evento.status === 'ENCERRADO') {
+      throw new Error('Evento já está encerrado');
+    }
+
+    return await eventoRepository.encerrar(id);
+  }
 }
 
 module.exports = new EventoService();

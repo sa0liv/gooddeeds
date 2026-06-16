@@ -31,7 +31,9 @@ export default function Comprovantes() {
     setErroGeral('');
     try {
       const response = await minhasInscricoes();
-      const confirmadas = response.data.filter(i => i.status === 'CONFIRMADA');
+      const confirmadas = response.data.filter(
+        i => i.status === 'CONFIRMADA' && i.presenca === true
+      );
       setAprovados(confirmadas);
     } catch (err) {
       const msg = err.response?.data?.erro || 'Erro ao carregar comprovantes';
@@ -62,7 +64,7 @@ export default function Comprovantes() {
           <div className="empty-state">
             <p>Nenhum comprovante disponível</p>
             <p style={{ fontSize: '0.9rem', color: '#67737e' }}>
-              Seus comprovantes aparecerão aqui após suas inscrições serem aprovadas
+              Seus comprovantes aparecerão aqui após sua presença ser confirmada
             </p>
           </div>
         ) : (

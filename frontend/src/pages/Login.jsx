@@ -43,8 +43,15 @@ export default function Login() {
       sessionStorage.setItem('loginSucesso', 'Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (err) {
-      const msg = err.response?.data?.erro || 'Erro ao entrar. Tente novamente.';
-      setErroGeral(msg);
+      if (!err.response) {
+        setErroGeral('Não foi possível conectar ao servidor. Verifique se o servidor está rodando.');
+      } else {
+        const data = err.response.data;
+        const msg = data?.erro
+          || (data?.erros?.[0]?.msg)
+          || 'Erro ao entrar. Tente novamente.';
+        setErroGeral(msg);
+      }
     } finally {
       setCarregando(false);
     }
